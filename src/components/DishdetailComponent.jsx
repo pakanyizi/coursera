@@ -25,7 +25,7 @@ function RenderDish({ dish }) {
   )
 }
 
-const RenderComments = ({ comments }) => {
+const RenderComments = ({ comments, addComment, dishId }) => {
   if (comments != null)
     return (
       <div
@@ -52,18 +52,18 @@ const RenderComments = ({ comments }) => {
             )
           })}
         </ul>
-        <CommentForm />
+        <CommentForm dishId={dishId} addComment={addComment} />
       </div>
     )
   else return <div />
 }
 
 const DishDetail = props => {
+  console.log(props.dish[0].id)
   if (props.dish != null)
     return (
       <div className="container">
         <div className="row">
-          {console.log(props)}
           <Breadcrumb>
             <BreadcrumbItem>
               <Link to="/menu">Menu</Link>
@@ -77,7 +77,11 @@ const DishDetail = props => {
         </div>
         <div className="row">
           <RenderDish dish={props.dish[0]} />
-          <RenderComments comments={props.comments} />
+          <RenderComments
+            comments={props.comments}
+            dishId={props.dish[0].id}
+            addComment={props.addComment}
+          />
         </div>
       </div>
     )

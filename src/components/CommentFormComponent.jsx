@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
   Label,
-  Input,
   Button,
   Modal,
   ModalHeader,
@@ -23,6 +22,21 @@ class CommentForm extends Component {
     })
   }
 
+  // handleSubmit = values => {
+  //   console.log(`Current state is: ${JSON.stringify(values)}`)
+  //   alert(`Current state is: ${JSON.stringify(values)}`)
+  // }
+
+  handleSubmit = values => {
+    this.toggleModal()
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    )
+  }
+
   render() {
     const required = val => val && val.length
     const maxLength = len => val => !val || val.length <= len
@@ -30,34 +44,40 @@ class CommentForm extends Component {
     return (
       <React.Fragment>
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>Post Comment</ModalHeader>
+          <ModalHeader>Post Comment</ModalHeader>
           <ModalBody>
-            <LocalForm onSubmit={this.handleLogin}>
+            <LocalForm onSubmit={this.handleSubmit}>
               <Row className="form-group">
-                <Label htmlFor="exampleSelect" md={12}>
-                  Select
+                <Label htmlFor="rating" md={12}>
+                  Rating
                 </Label>
                 <Col>
-                  <Input type="select" name="select" id="exampleSelect" md={12}>
+                  <Control.select
+                    model=".rating"
+                    name="rating"
+                    id="rating"
+                    md={12}
+                    className="form-control"
+                  >
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
-                  </Input>
+                  </Control.select>
                 </Col>
               </Row>
 
               <Row className="form-group">
-                <Label htmlFor="username" md={12}>
-                  Username
+                <Label htmlFor="author" md={12}>
+                  Your name
                 </Label>
                 <Col md={12}>
                   <Control.text
-                    model=".username"
-                    id="username"
-                    name="username"
-                    placeholder="User Name"
+                    model=".author"
+                    id="author"
+                    name="author"
+                    placeholder="Author"
                     className="form-control"
                     validators={{
                       required,
@@ -67,7 +87,7 @@ class CommentForm extends Component {
                   />
                   <Errors
                     className="text-danger"
-                    model=".username"
+                    model=".author"
                     show="touched"
                     messages={{
                       required: 'Required',
@@ -79,21 +99,20 @@ class CommentForm extends Component {
               </Row>
 
               <Row className="form-group">
-                <Label htmlFor="message" md={12}>
+                <Label htmlFor="comment" md={12}>
                   Comment
                 </Label>
                 <Col>
                   <Control.textarea
-                    model=".message"
-                    id="message"
-                    name="message"
+                    model=".comment"
+                    id="comment"
+                    name="comment"
                     rows="6"
                     className="form-control"
                     md={12}
                   />
                 </Col>
               </Row>
-
               <Button type="submit" value="submit" color="primary">
                 Submit
               </Button>
