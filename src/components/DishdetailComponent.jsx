@@ -11,6 +11,7 @@ import {
 import { Link } from 'react-router-dom'
 import CommentForm from './CommentFormComponent'
 import Loading from './LoadingComponent'
+import { baseUrl } from '../shared/baseUrl'
 
 function RenderDish({ dish, isLoading, errMess }) {
   if (isLoading) {
@@ -21,7 +22,7 @@ function RenderDish({ dish, isLoading, errMess }) {
     return (
       <div className="col-12 col-md-5 m-1">
         <Card>
-          <CardImg top src={dish.image} alt={dish.name} />
+          <CardImg top src={baseUrl + dish.image} alt={dish.name} />
           <CardBody>
             <CardTitle>{dish.name}</CardTitle>
             <CardText>{dish.description}</CardText>
@@ -89,18 +90,18 @@ const DishDetail = props => {
             <BreadcrumbItem>
               <Link to="/menu">Menu</Link>
             </BreadcrumbItem>
-            <BreadcrumbItem active>{props.dish[0].name}</BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
           </Breadcrumb>
           <div className="col-12">
-            <h3>{props.dish[0].name}</h3>
+            <h3>{props.dish.name}</h3>
             <hr />
           </div>
         </div>
         <div className="row">
-          <RenderDish dish={props.dish[0]} />
+          <RenderDish dish={props.dish} />
           <RenderComments
             comments={props.comments}
-            dishId={props.dish[0].id}
+            dishId={props.dish.id}
             addComment={props.addComment}
           />
         </div>
